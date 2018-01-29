@@ -7,19 +7,39 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var mapView: MKMapView!
+    
+    private lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+        manager.delegate = self
+        manager.requestAlwaysAuthorization()
+        manager.allowsBackgroundLocationUpdates = true
+        return manager
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+    
+        locationManager.startMonitoringSignificantLocationChanges()
+        locationManager.startUpdatingLocation()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 
 }
 
+
+extension ViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let mostRecentLocation = locations.last else {
+            return
+        }
+        
+        print("mostRecent: \(mostRecentLocation.coordinate.latitude), \(mostRecentLocation.coordinate.longitude), \(mostRecentLocation.altitude), \(mostRecentLocation.timestamp)")
+    }
+    
+}
