@@ -10,12 +10,13 @@ import UIKit
 import MapKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var messageLabel: UILabel!
     
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
+        manager.distanceFilter = 2
         manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.delegate = self
         manager.requestAlwaysAuthorization()
@@ -25,15 +26,15 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         checkForLocationServices()
     }
     
     func checkForLocationServices() {
         if CLLocationManager.locationServicesEnabled() {
             // Location services are available, so query the user’s location.
-            //        locationManager.startMonitoringSignificantLocationChanges()
-                        locationManager.startUpdatingLocation()
+//                    locationManager.startMonitoringSignificantLocationChanges()
+            locationManager.startUpdatingLocation()
         } else {
             // Update your app’s UI to show that the location is unavailable.
             messageLabel.text = "Location is unavailable"
@@ -56,14 +57,46 @@ class ViewController: UIViewController {
             
         case .authorizedWhenInUse:
             // Enable basic location features
-//            enableMyWhenInUseFeatures()
+            //            enableMyWhenInUseFeatures()
             break
             
         case .authorizedAlways:
             // Enable any of your app's location features
-//            enableMyAlwaysFeatures()
+            //            enableMyAlwaysFeatures()
             break
         }
+    }
+    
+    func showMapPoints() {
+        mapView.removeAnnotations(mapView.annotations)
+        mapView.removeOverlays(mapView.overlays)
+        
+        let points = Database.fetchPoints(date: Date())
+        
+        messageLabel.text = "\(points.count) points"
+        
+        var lastLocation: CLLocationCoordinate2D?
+        
+        for point in points {
+            let location = CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude)
+            print("point >> \(point.latitude), \(point.longitude)")
+            
+            lastLocation = location
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = location
+            annotation.title = Util.formatForShow(date: point.date)
+            annotation.subtitle = ""
+            mapView.addAnnotation(annotation)
+        }
+        
+        let region = MKCoordinateRegion(center: lastLocation ?? CLLocationCoordinate2D(latitude: 0, longitude: 0), span: MKCoordinateSpan(latitudeDelta: 0.002, longitudeDelta: 0.002))
+        
+        mapView.setRegion(region, animated: true)
+    }
+
+    @IBAction func refreshData(_ sender: UIButton) {
+        showMapPoints()
     }
 }
 
@@ -77,8 +110,8 @@ extension ViewController: CLLocationManagerDelegate {
         print("mostRecent: \(mostRecentLocation.coordinate.latitude), \(mostRecentLocation.coordinate.longitude), \(mostRecentLocation.altitude), \(mostRecentLocation.timestamp)")
         
         let point = Point()
-        point.latitude = mostRecentLocation.coordinate.longitude
-        point.longitude = mostRecentLocation.coordinate.latitude
+        point.latitude = mostRecentLocation.coordinate.latitude
+        point.longitude = mostRecentLocation.coordinate.longitude
         point.date = mostRecentLocation.timestamp
         point.day = Util.getDay(point.date)
         point.month = Util.getMonth(point.date)
@@ -95,12 +128,12 @@ extension ViewController: CLLocationManagerDelegate {
             
         case .authorizedWhenInUse:
             // Enable only your app's when-in-use features.
-//            enableMyWhenInUseFeatures()
+            //            enableMyWhenInUseFeatures()
             break
             
         case .authorizedAlways:
             // Enable any of your app's location services.
-//            enableMyAlwaysFeatures()
+            //            enableMyAlwaysFeatures()
             break
             
         case .notDetermined:

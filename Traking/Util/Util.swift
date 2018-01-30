@@ -54,7 +54,7 @@ struct Util {
     
     static func formatForShow(date: Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMMM yyyy"
+        dateFormatter.dateFormat = "hh:mm"
         return dateFormatter.string(from: date)
     }
     

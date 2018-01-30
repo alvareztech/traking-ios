@@ -32,7 +32,6 @@
 		F0F055ECF81C2349BB663416 /* Pods_Traking.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Traking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FFEF1EE4201F75F100BBBA17 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		FFEF1EE6201F765900BBBA17 /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
-		FFEF1EE8201F9E1100BBBA17 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +99,6 @@
 		91A645985EEE26D3F8D29670 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FFEF1EE8201F9E1100BBBA17 /* CoreLocation.framework */,
 				F0F055ECF81C2349BB663416 /* Pods_Traking.framework */,
 			);
 			name = Frameworks;
@@ -394,7 +392,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BR26Z7K4HT;
 				INFOPLIST_FILE = Traking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tech.alvarez.Traking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -409,7 +409,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = BR26Z7K4HT;
 				INFOPLIST_FILE = Traking/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tech.alvarez.Traking;
 				PRODUCT_NAME = "$(TARGET_NAME)";
